@@ -26,20 +26,21 @@ int main(int argc, char **argv)
     bpf_u_int32 maskp; /* subnet mask */
     struct in_addr addr;
 
-    /* ask pcap to find a valid device for use to sniff on */
-    dev = pcap_lookupdev(errbuf);
+    /* ask pcap_lookupdev to find a valid device for use to sniff on */
+
+    dev = pcap_lookupdev(errbuf); // pcap_lookupdev used to find the valid interface.
 
     /* error checking */
     if (dev == NULL)
     {
-        printf("%s\n", errbuf);
+        printf("%s\n", errbuf); // if pcap_lookupdev did not find any device it will save the error message in errbuf.
         exit(1);
     }
 
     /* print out device name */
     printf("DEV: %s\n", dev);
 
-    /* ask pcap for the network address and mask of the device */
+    /* ask pcap_lookupnet for the network address and mask of the device but not in human readable form*/
     ret = pcap_lookupnet(dev, &netp, &maskp, errbuf);
 
     if (ret == -1)
@@ -49,8 +50,8 @@ int main(int argc, char **argv)
     }
 
     /* get the network address in a human readable form */
-    addr.s_addr = netp;
-    net = inet_ntoa(addr);
+    addr.s_addr = netp;    // saving netp value in the addr.s_addr struct.
+    net = inet_ntoa(addr); // inet_ntoa convert Internet number in IN to ASCII representation.
 
     if (net == NULL) /* thanks Scott :-P */
     {
@@ -58,7 +59,7 @@ int main(int argc, char **argv)
         exit(1);
     }
 
-    printf("NET: %s\n", net);
+    printf("NET: %s\n", net); // Now printing the IPaddr into human readable form
 
     /* do the same as above for the device's mask */
     addr.s_addr = maskp;
