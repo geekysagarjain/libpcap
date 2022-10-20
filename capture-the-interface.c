@@ -1,3 +1,12 @@
+/* 
+    Sagar Jain
+    To compile:
+    >gcc filename.c -lpcap
+
+    Looks for an interface, and lists the network ip
+    and mask associated with that interface.
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <pcap.h> /* GIMME a libpcap plz! */
