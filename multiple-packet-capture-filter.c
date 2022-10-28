@@ -21,20 +21,21 @@
 /* callback function that is passed to pcap_loop(..) and called each time 
  * a packet is recieved */
 
+int global_argc;
+
 void my_callback(u_char *useless,const struct pcap_pkthdr* pkthdr,const u_char* packet)
 {
     static int count = 1;
-    fprintf(stdout,"%d, ",count);
-    if(count == 4)
-        fprintf(stdout,"Captured 4 packets Nyc!\n");
-    if(count == 7)
-        fprintf(stdout,"Captured 7 packets Wow!\n");
-    fflush(stdout);
-    count++;
+    for (; count <= global_argc; count++)
+    {
+        printf("Called %d Time\n", count);
+    }
+    
 }
 
 int main(int argc,char **argv)
 { 
+    global_argc=atoi(argv[1]);
     pcap_if_t *interface;  /* find an interface to use */
     int i;
     char *dev; 
@@ -68,6 +69,7 @@ int main(int argc,char **argv)
     }
 
     /* allright here we call pcap_loop(..) and pass in our callback function */
+    // Collects and processes packets.
     /* int pcap_loop(pcap_t *p, int cnt, pcap_handler callback, u_char *user)*/
     /* If you are wondering what the user argument is all about, so am I!!   */
 
